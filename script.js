@@ -67,7 +67,7 @@ function applyTheme() {
 // Fungsi untuk memeriksa status login admin
 function requireAdminAuth() {
     if (!localStorage.getItem('adminToken')) {
-        window.location.href = 'index.html';
+        window.location.href = 'cpcanva.github.io';
     }
 }
 
@@ -93,7 +93,7 @@ async function adminLogin(username, password) {
 // Fungsi logout admin
 function adminLogout() {
     localStorage.removeItem('adminToken');
-    window.location.href = 'index.html';
+    window.location.href = 'cpcanva.github.io';
 }
 
 // Fungsi untuk memeriksa password user (simulasi)
