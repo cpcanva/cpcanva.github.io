@@ -161,6 +161,11 @@ img {
   color: white;
 }
 
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
 .input-group {
   margin-bottom: var(--padding-md);
 }
@@ -307,34 +312,7 @@ tr:hover {
   to { transform: rotate(360deg); }
 }
 
-/* 7. Gaya Khusus untuk Halaman */
-/* Login Page */
-.login-page, .password-page {
-  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: var(--padding-md);
-}
-
-.login-card, .password-card {
-  width: 100%;
-  max-width: 400px;
-  background-color: var(--card-bg);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-lg);
-  padding: var(--padding-xl);
-  text-align: center;
-}
-
-.login-card h1, .password-card h1 {
-  font-size: 1.75rem;
-  margin-bottom: var(--padding-lg);
-  color: var(--text-dark);
-}
-
-/* Control Panel */
+/* 7. Navbar & Sidebar */
 .navbar {
   background-color: var(--card-bg);
   box-shadow: var(--shadow);
@@ -354,6 +332,25 @@ tr:hover {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: var(--text-light);
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-link:hover, .nav-link.active {
+  background-color: #eff6ff;
+  color: var(--primary);
 }
 
 .nav-actions {
@@ -466,6 +463,12 @@ tr:hover {
     align-items: stretch;
   }
 
+  .nav-links {
+    justify-content: center;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+  }
+
   .nav-actions {
     justify-content: center;
   }
@@ -514,5 +517,6 @@ tr:hover {
 
   .login-card, .password-card {
     max-width: 100%;
+    padding: var(--padding-md);
   }
 }
