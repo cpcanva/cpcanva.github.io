@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <header class="bg-white p-4 rounded-lg shadow mb-6 flex justify-between items-center">
+            <h1 class="text-xl font-bold">Control Panel</h1>
+            <button id="logoutBtn" class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 transition">Logout</button>
+        </header>
+
+        <main class="bg-white p-6 rounded-lg shadow">
+            <div class="mb-6">
+                <h2 class="text-lg font-semibold mb-3">Manage Dynamic Passwords</h2>
+                <form id="managePasswordForm">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                        <div>
+                            <label for="startTime" class="block text-gray-700 text-sm mb-1">Start Time (HH:MM)</label>
+                            <input type="time" id="startTime" name="startTime" required class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label for="endTime" class="block text-gray-700 text-sm mb-1">End Time (HH:MM)</label>
+                            <input type="time" id="endTime" name="endTime" required class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label for="passwordValue" class="block text-gray-700 text-sm mb-1">Password</label>
+                            <input type="text" id="passwordValue" name="password" required class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500">
+                        </div>
+                    </div>
+                    <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition">Add/Update Password</button>
+                </form>
+            </div>
+
+            <div>
+                <h2 class="text-lg font-semibold mb-3">Active Passwords</h2>
+                <div id="passwordsList" class="space-y-2">
+                    <!-- Daftar password akan dimuat di sini -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Cek login status
+        if (!localStorage.getItem('adminToken')) {
+            window.location.href = 'index.html';
+        }
+
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            localStorage.removeItem('adminToken');
+            window.location.href = 'index.html';
+        });
+
+        // Simulasi data password
+        let passwords = [
+            { id: 1, start_time: '00:00', end_time: '11:59', value: 'morning123' },
+            { id: 2, start_time: '12:00', end_time: '23:59', value: 'afternoon456' }
+        ];
+
+        function renderPasswords() {
+            const listDiv = document.getElementById('passwordsList');
+            listDiv.innerHTML = '';
+            passwords.forEach(p => {
+                const item = document.createElement('div');
+                item.className = 'flex justify-between items-center p-3 bg-gray-50 rounded border';
+                item.innerHTML = `
+                    <span>${p.start_time} - ${p.end_time}: ${p.value}</span>
+                    <button onclick="deletePassword(${p.id})" class="bg-red-500 text-white py-1 px-3 rounded text-sm hover:bg-red-600 transition">Delete</button>
+                `;
+                listDiv.appendChild(item);
+            });
+        }
+
+        document.getElementById('managePasswordForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const startTime = document.getElementById('startTime').value;
+            const endTime = document.getElementById('endTime').value;
+            const passwordValue = document.getElementById('passwordValue').value;
+
+            // Simulasi tambah/update ke backend
+            const newId = passwords.length > 0 ? Math.max(...passwords.map(p => p.id)) + 1 : 1;
+            passwords.push({
+                id: newId,
+                start_time: startTime,
+                end_time: endTime,
+                value: passwordValue
+            });
+
+            renderPasswords();
+            this.reset();
+        });
+
+        function deletePassword(id) {
+            // Simulasi hapus dari backend
+            passwords = passwords.filter(p => p.id !== id);
+            renderPasswords();
+        }
+
+        // Load initial data
+        renderPasswords();
+    </script>
+</body>
+</html>
