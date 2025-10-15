@@ -1,37 +1,86 @@
-// script.js - Fungsi-fungsi utama untuk interaktivitas dan logika aplikasi
-
-// Fungsi untuk menampilkan loader di tombol
-function showLoader(buttonElement, text) {
-    buttonElement.innerHTML = `<i class="loader"></i> ${text}`;
-    buttonElement.disabled = true;
-}
+// script.js - Fungsi-fungsi interaktif
 
 // Fungsi untuk menampilkan notifikasi toast
-function showToast(message, type) {
-    const toast = document.getElementById('toast');
-    toast.textContent = message;
-    toast.className = `toast ${type}`;
-    toast.classList.add('show');
+function showToast(message, type = 'info') {
+    const toastContainer = document.createElement('div');
+    toastContainer.className = 'toast-container';
+    document.body.appendChild(toastContainer);
 
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+
+    toastContainer.appendChild(toast);
+
+    // Tampilkan toast
+    setTimeout(() => {
+        toast.classList.add('show');
+    }, 10); // Delay kecil agar animasi bekerja
+
+    // Hapus toast setelah 3 detik
     setTimeout(() => {
         toast.classList.remove('show');
+        setTimeout(() => {
+            toastContainer.removeChild(toast);
+            if (toastContainer.children.length === 0) {
+                document.body.removeChild(toastContainer);
+            }
+        }, 300); // Tunggu animasi selesai
     }, 3000);
 }
 
-// Fungsi untuk login admin
+// Fungsi untuk menampilkan loader di tombol
+function showLoader(buttonElement, originalText) {
+    buttonElement.innerHTML = `<span class="loader"></span>Loading...`;
+    buttonElement.disabled = true;
+    // Simpan teks asli untuk dikembalikan nanti
+    buttonElement.dataset.originalText = originalText;
+}
+
+// Fungsi untuk mengembalikan tombol ke kondisi semula
+function hideLoader(buttonElement) {
+    const originalText = buttonElement.dataset.originalText || 'Submit';
+    buttonElement.innerHTML = originalText;
+    buttonElement.disabled = false;
+}
+
+// Fungsi untuk toggle dark mode
+function toggleDarkMode() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+}
+
+// Fungsi untuk menerapkan tema saat halaman dimuat
+function applyTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    } else {
+        // Jika tidak ada tema tersimpan, gunakan tema sistem
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.setAttribute('data-theme', systemPrefersDark ? 'dark' : 'light');
+    }
+}
+
+// Fungsi untuk memeriksa status login admin
+function requireAdminAuth() {
+    if (!localStorage.getItem('adminToken')) {
+        window.location.href = 'index.html';
+    }
+}
+
+// Fungsi login admin (simulasi)
 async function adminLogin(username, password) {
-    // Simulasi login ke backend
+    // Simulasi permintaan ke backend
     // const response = await fetch('/api/login.php', {
     //     method: 'POST',
     //     headers: { 'Content-Type': 'application/json' },
     //     body: JSON.stringify({ username, password })
     // });
     // const data = await response.json();
-    // if (data.success) {
-    //     localStorage.setItem('adminToken', data.token);
-    //     return true;
-    // }
-    // return false;
+    // return data.success;
 
     // Simulasi login
     if (username === 'admin' && password === 'admin123') {
@@ -41,15 +90,15 @@ async function adminLogin(username, password) {
     return false;
 }
 
-// Fungsi untuk logout admin
+// Fungsi logout admin
 function adminLogout() {
     localStorage.removeItem('adminToken');
     window.location.href = 'index.html';
 }
 
-// Fungsi untuk memeriksa password user
+// Fungsi untuk memeriksa password user (simulasi)
 async function checkUserPassword(password) {
-    // Simulasi validasi password ke backend
+    // Simulasi permintaan ke backend
     // const response = await fetch('/api/check_password.php', {
     //     method: 'POST',
     //     headers: { 'Content-Type': 'application/json' },
@@ -58,48 +107,25 @@ async function checkUserPassword(password) {
     // const data = await response.json();
     // return data.valid;
 
-    // Simulasi validasi password berdasarkan waktu
-    const currentHour = new Date().getHours();
-    let correctPassword = 'default';
-    if (currentHour < 12) {
-        correctPassword = 'morning123';
-    } else {
-        correctPassword = 'afternoon456';
+    // Simulasi validasi berdasarkan waktu
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+    const currentTime = currentHour * 60 + currentMinute; // Menit sejak 00:00
+
+    // Misalnya password pagi berlaku 00:00 - 11:59 (719 menit), sore 12:00 - 23:59 (1439 menit)
+    const morningPassword = 'morning123';
+    const afternoonPassword = 'afternoon456';
+
+    if ((currentTime >= 0 && currentTime < 12 * 60) && password === morningPassword) {
+        return true;
+    } else if ((currentTime >= 12 * 60 && currentTime <= 23 * 60 + 59) && password === afternoonPassword) {
+        return true;
     }
-    return password === correctPassword;
+    return false;
 }
 
-// Fungsi untuk mengambil daftar password dari backend
-async function getPasswords() {
-    // Simulasi data
-    return [
-        { id: 1, start_time: '00:00', end_time: '11:59', value: 'morning123' },
-        { id: 2, start_time: '12:00', end_time: '23:59', value: 'afternoon456' }
-    ];
-}
-
-// Fungsi untuk menambah atau memperbarui password
-async function updatePassword(startTime, endTime, passwordValue) {
-    // Simulasi
-    console.log(`Update password: ${startTime} - ${endTime} = ${passwordValue}`);
-    return true;
-}
-
-// Fungsi untuk menghapus password
-async function deletePassword(id) {
-    // Simulasi
-    console.log(`Delete password ID: ${id}`);
-    return true;
-}
-
-// Fungsi untuk memvalidasi akses ke halaman kontrol
-function requireAdminAuth() {
-    if (!localStorage.getItem('adminToken')) {
-        window.location.href = 'index.html';
-    }
-}
-
-// Inisialisasi fungsi umum jika diperlukan
+// Inisialisasi tema saat DOM siap
 document.addEventListener('DOMContentLoaded', function() {
-    // Panggil fungsi inisialisasi jika ada
+    applyTheme();
 });
