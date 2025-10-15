@@ -1,46 +1,111 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light"> <!-- Default theme -->
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Access Password</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .password-page { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: var(--padding-md); }
-        .password-card { width: 100%; max-width: 400px; background-color: var(--card-bg); border-radius: var(--border-radius); box-shadow: var(--shadow-lg); padding: var(--padding-xl); text-align: center; }
-        .password-card h1 { font-size: 1.75rem; margin-bottom: var(--padding-lg); color: var(--text-dark); }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            padding-top: 0;
+        }
+        .password-page { 
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            min-height: 100vh; 
+            padding: var(--padding-xl) var(--padding-md);
+            position: relative;
+        }
+        .password-card { 
+            width: 100%; 
+            max-width: 440px; 
+            background-color: var(--card-bg); 
+            border-radius: var(--border-radius-lg); 
+            box-shadow: var(--shadow-xl); 
+            padding: var(--padding-xl); 
+            text-align: center; 
+            backdrop-filter: blur(10px);
+            background-color: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            margin-top: 2rem;
+        }
+        .password-card h1 { 
+            font-size: 1.875rem; 
+            margin-bottom: var(--padding-lg); 
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+        
+        /* Navbar khusus untuk halaman password */
+        .password-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        [data-theme="dark"] .password-navbar {
+            background: rgba(30, 41, 59, 0.95);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .password-info {
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: var(--border-radius);
+            padding: var(--padding-md);
+            margin-top: var(--padding-lg);
+            border-left: 4px solid var(--primary);
+        }
     </style>
 </head>
 <body class="password-page">
-    <nav class="navbar">
-        <div class="nav-brand">
-            <i class="fas fa-shield-alt"></i> SecurePanel
-        </div>
-        <div class="nav-links">
-            <a href="index.html" class="nav-link"><i class="fas fa-user"></i> Login</a>
-            <a href="redirect.html" class="nav-link active"><i class="fas fa-key"></i> Access</a>
-        </div>
-        <div class="nav-actions">
-            <button id="darkModeToggle" class="btn btn-outline">
-                <i class="fas fa-moon"></i>
-            </button>
+    <!-- Navbar Fixed di atas -->
+    <nav class="navbar password-navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-shield-alt"></i> SecurePanel
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link"><i class="fas fa-user"></i> Admin Login</a>
+                <a href="redirect.html" class="nav-link active"><i class="fas fa-key"></i> User Access</a>
+            </div>
+            <div class="nav-actions">
+                <button id="darkModeToggle" class="btn btn-outline">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
         </div>
     </nav>
 
-    <div class="card password-card fade-in-up">
-        <h1><i class="fas fa-key"></i> Enter Access Password</h1>
-        <form id="passwordForm">
-            <div class="input-group">
-                <label for="userPassword"><i class="fas fa-lock"></i> Password</label>
-                <input type="password" id="userPassword" name="password" required>
+    <!-- Konten Password -->
+    <div class="container">
+        <div class="card password-card fade-in-up">
+            <h1><i class="fas fa-key"></i> Enter Access Password</h1>
+            <form id="passwordForm">
+                <div class="input-group">
+                    <label for="userPassword"><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="userPassword" name="password" required placeholder="Enter access password">
+                </div>
+                <button type="submit" class="btn btn-success btn-block">
+                    <i class="fas fa-check"></i> Submit
+                </button>
+            </form>
+            
+            <div class="password-info">
+                <p style="color: var(--text-light); font-size: 0.875rem; margin: 0;">
+                    <i class="fas fa-clock"></i> Password changes based on time schedule
+                </p>
             </div>
-            <button type="submit" class="btn btn-success btn-block">
-                <i class="fas fa-check"></i> Submit
-            </button>
-        </form>
+        </div>
     </div>
 
     <script src="script.js"></script>
