@@ -1,89 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light"> <!-- Default theme -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Control Panel</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
 </head>
-<body class="dashboard-bg">
+<body>
     <nav class="navbar">
         <div class="nav-brand">
-            <i class="fa-solid fa-shield-halved nav-icon"></i>
-            <span>SecurePanel</span>
+            <i class="fas fa-shield-alt"></i> SecurePanel
         </div>
         <div class="nav-actions">
-            <button id="darkModeToggle" class="btn-secondary">
-                <i class="fa-solid fa-moon"></i>
+            <button id="darkModeToggle" class="btn btn-outline">
+                <i class="fas fa-moon"></i>
             </button>
-            <button id="logoutBtn" class="btn-logout">
-                <i class="fa-solid fa-right-from-bracket"></i> Logout
+            <button id="logoutBtn" class="btn btn-danger">
+                <i class="fas fa-sign-out-alt"></i> Logout
             </button>
         </div>
     </nav>
 
     <div class="container">
         <aside class="sidebar">
-            <ul class="nav-menu">
-                <li class="nav-item active"><a href="#" data-tab="dashboard"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
-                <li class="nav-item"><a href="#" data-tab="passwords"><i class="fa-solid fa-key"></i> Manage Passwords</a></li>
-                <li class="nav-item"><a href="#" data-tab="schedule"><i class="fa-solid fa-clock"></i> Schedule</a></li>
+            <ul class="sidebar-menu">
+                <li><a href="#" class="active" data-tab="dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="#" data-tab="managePasswords"><i class="fas fa-key"></i> Manage Passwords</a></li>
+                <li><a href="#" data-tab="schedule"><i class="fas fa-clock"></i> Schedule</a></li>
             </ul>
         </aside>
 
         <main class="main-content">
             <!-- Dashboard Tab -->
             <div id="dashboardTab" class="tab-content active">
-                <h2 class="section-title">Dashboard Overview</h2>
-                <div class="stats-container">
+                <h2 class="section-title">Dashboard</h2>
+                <div class="stats-grid">
                     <div class="stat-card">
-                        <i class="fa-solid fa-key stat-icon"></i>
-                        <div class="stat-info">
-                            <h3 id="totalPasswords">0</h3>
-                            <p>Total Passwords</p>
-                        </div>
+                        <h3 id="statTotalPasswords">0</h3>
+                        <p>Total Passwords</p>
                     </div>
                     <div class="stat-card">
-                        <i class="fa-solid fa-clock stat-icon"></i>
-                        <div class="stat-info">
-                            <h3 id="activeSchedules">0</h3>
-                            <p>Active Schedules</p>
-                        </div>
+                        <h3 id="statActiveSchedules">0</h3>
+                        <p>Active Schedules</p>
                     </div>
                 </div>
             </div>
 
             <!-- Manage Passwords Tab -->
-            <div id="passwordsTab" class="tab-content">
+            <div id="managePasswordsTab" class="tab-content">
                 <h2 class="section-title">Manage Dynamic Passwords</h2>
                 <div class="card">
                     <form id="managePasswordForm">
-                        <div class="form-row">
-                            <div class="form-group">
+                        <div class="form-grid">
+                            <div class="input-group">
                                 <label for="startTime">Start Time</label>
-                                <input type="time" id="startTime" name="startTime" required class="input-field">
+                                <input type="time" id="startTime" name="startTime" required>
                             </div>
-                            <div class="form-group">
+                            <div class="input-group">
                                 <label for="endTime">End Time</label>
-                                <input type="time" id="endTime" name="endTime" required class="input-field">
+                                <input type="time" id="endTime" name="endTime" required>
                             </div>
-                            <div class="form-group">
+                            <div class="input-group">
                                 <label for="passwordValue">Password</label>
-                                <input type="text" id="passwordValue" name="password" required class="input-field">
+                                <input type="text" id="passwordValue" name="password" required>
                             </div>
                         </div>
-                        <button type="submit" class="btn-primary">
-                            <i class="fa-solid fa-plus btn-icon"></i> Add Password
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Add Password
                         </button>
                     </form>
                 </div>
 
-                <div class="card mt-4">
+                <div class="card">
                     <h3>Active Passwords</h3>
                     <div class="table-responsive">
-                        <table class="data-table">
+                        <table>
                             <thead>
                                 <tr>
                                     <th>Start Time</th>
@@ -93,7 +89,7 @@
                                 </tr>
                             </thead>
                             <tbody id="passwordsList">
-                                <!-- Daftar password akan dimuat di sini -->
+                                <!-- Ditambahkan oleh JS -->
                             </tbody>
                         </table>
                     </div>
@@ -103,91 +99,72 @@
             <!-- Schedule Tab -->
             <div id="scheduleTab" class="tab-content">
                 <h2 class="section-title">Schedule Management</h2>
-                <p>Schedule management features coming soon.</p>
+                <p>Coming Soon...</p>
             </div>
         </main>
     </div>
 
-    <div id="toast" class="toast hidden"></div>
     <script src="script.js"></script>
     <script>
-        // Cek login status
-        if (!localStorage.getItem('adminToken')) {
-            window.location.href = 'index.html';
-        }
+        // Cek login
+        requireAdminAuth();
 
         // Dark Mode Toggle
         const darkModeToggle = document.getElementById('darkModeToggle');
-        const body = document.body;
-        const darkModeEnabled = localStorage.getItem('darkMode') === 'enabled';
+        darkModeToggle.addEventListener('click', toggleDarkMode);
 
-        if (darkModeEnabled) {
-            body.classList.add('dark-mode');
-            darkModeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
-        }
-
-        darkModeToggle.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-            const isDarkMode = body.classList.contains('dark-mode');
-            darkModeToggle.innerHTML = isDarkMode ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
-            localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
-        });
-
-        document.getElementById('logoutBtn').addEventListener('click', function() {
-            localStorage.removeItem('adminToken');
-            window.location.href = 'index.html';
-        });
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', adminLogout);
 
         // Tab Navigation
-        document.querySelectorAll('.nav-item a').forEach(anchor => {
+        document.querySelectorAll('.sidebar-menu a').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 const targetTab = this.getAttribute('data-tab');
 
-                // Update active nav item
-                document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-                this.parentElement.classList.add('active');
+                // Update active link
+                document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+                this.classList.add('active');
 
-                // Show target tab content
+                // Show target content
                 document.querySelectorAll('.tab-content').forEach(content => {
                     content.classList.remove('active');
-                    if (content.id === `${targetTab}Tab`) {
+                    if(content.id === `${targetTab}Tab`) {
                         content.classList.add('active');
                     }
                 });
             });
         });
 
-        // Simulasi data password
+        // Simulasi data
         let passwords = [
             { id: 1, start_time: '00:00', end_time: '11:59', value: 'morning123' },
             { id: 2, start_time: '12:00', end_time: '23:59', value: 'afternoon456' }
         ];
 
         function renderPasswords() {
-            const listBody = document.getElementById('passwordsList');
-            listBody.innerHTML = '';
+            const tbody = document.getElementById('passwordsList');
+            tbody.innerHTML = '';
             passwords.forEach(p => {
                 const row = document.createElement('tr');
-                row.className = 'table-row';
                 row.innerHTML = `
                     <td>${p.start_time}</td>
                     <td>${p.end_time}</td>
                     <td><code>${p.value}</code></td>
                     <td>
-                        <button onclick="deletePassword(${p.id})" class="btn-icon-danger" title="Delete Password">
-                            <i class="fa-solid fa-trash"></i>
+                        <button class="btn btn-danger btn-sm" onclick="deletePassword(${p.id})">
+                            <i class="fas fa-trash"></i>
                         </button>
                     </td>
                 `;
-                listBody.appendChild(row);
+                tbody.appendChild(row);
             });
             updateStats();
         }
 
         function updateStats() {
-            document.getElementById('totalPasswords').textContent = passwords.length;
-            document.getElementById('activeSchedules').textContent = passwords.length; // Sederhana
+            document.getElementById('statTotalPasswords').textContent = passwords.length;
+            document.getElementById('statActiveSchedules').textContent = passwords.length; // Sederhana
         }
 
         document.getElementById('managePasswordForm').addEventListener('submit', function(e) {
@@ -197,12 +174,12 @@
             const passwordValue = document.getElementById('passwordValue').value;
 
             // Validasi sederhana
-            if (new Date(`1970-01-01T${endTime}`) <= new Date(`1970-01-01T${startTime}`)) {
-                 showToast('End time must be after start time', 'error');
-                 return;
+            if (startTime >= endTime) {
+                showToast('End time must be after start time.', 'error');
+                return;
             }
 
-            // Simulasi tambah/update ke backend
+            // Simulasi tambah
             const newId = passwords.length > 0 ? Math.max(...passwords.map(p => p.id)) + 1 : 1;
             passwords.push({
                 id: newId,
@@ -213,19 +190,18 @@
 
             renderPasswords();
             this.reset();
-            showToast('Password added successfully', 'success');
+            showToast('Password added successfully!', 'success');
         });
 
         function deletePassword(id) {
             if (confirm('Are you sure you want to delete this password?')) {
-                // Simulasi hapus dari backend
                 passwords = passwords.filter(p => p.id !== id);
                 renderPasswords();
-                showToast('Password deleted', 'success');
+                showToast('Password deleted.', 'info');
             }
         }
 
-        // Load initial data
+        // Inisialisasi
         renderPasswords();
     </script>
 </body>
