@@ -1,50 +1,106 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light"> <!-- Default theme -->
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .login-page { background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: var(--padding-md); }
-        .login-card { width: 100%; max-width: 400px; background-color: var(--card-bg); border-radius: var(--border-radius); box-shadow: var(--shadow-lg); padding: var(--padding-xl); text-align: center; }
-        .login-card h1 { font-size: 1.75rem; margin-bottom: var(--padding-lg); color: var(--text-dark); }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            padding-top: 0; /* Reset padding untuk fixed navbar */
+        }
+        .login-page { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            min-height: 100vh; 
+            padding: var(--padding-xl) var(--padding-md);
+            position: relative;
+        }
+        .login-card { 
+            width: 100%; 
+            max-width: 440px; 
+            background-color: var(--card-bg); 
+            border-radius: var(--border-radius-lg); 
+            box-shadow: var(--shadow-xl); 
+            padding: var(--padding-xl); 
+            text-align: center; 
+            backdrop-filter: blur(10px);
+            background-color: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            margin-top: 2rem; /* Beri jarak dari navbar */
+        }
+        .login-card h1 { 
+            font-size: 1.875rem; 
+            margin-bottom: var(--padding-lg); 
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+        
+        /* Navbar khusus untuk halaman login */
+        .login-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        [data-theme="dark"] .login-navbar {
+            background: rgba(30, 41, 59, 0.95);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
     </style>
 </head>
 <body class="login-page">
-    <nav class="navbar">
-        <div class="nav-brand">
-            <i class="fas fa-shield-alt"></i> SecurePanel
-        </div>
-        <div class="nav-links">
-            <a href="index.html" class="nav-link active"><i class="fas fa-user"></i> Login</a>
-            <a href="redirect.html" class="nav-link"><i class="fas fa-key"></i> Access</a>
-        </div>
-        <div class="nav-actions">
-            <button id="darkModeToggle" class="btn btn-outline">
-                <i class="fas fa-moon"></i>
-            </button>
+    <!-- Navbar Fixed di atas -->
+    <nav class="navbar login-navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-shield-alt"></i> SecurePanel
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link active"><i class="fas fa-user"></i> Admin Login</a>
+                <a href="redirect.html" class="nav-link"><i class="fas fa-key"></i> User Access</a>
+            </div>
+            <div class="nav-actions">
+                <button id="darkModeToggle" class="btn btn-outline">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
         </div>
     </nav>
 
-    <div class="card login-card fade-in-up">
-        <h1><i class="fas fa-user-shield"></i> Admin Login</h1>
-        <form id="loginForm">
-            <div class="input-group">
-                <label for="username"><i class="fas fa-user"></i> Username</label>
-                <input type="text" id="username" name="username" required>
+    <!-- Konten Login -->
+    <div class="container">
+        <div class="card login-card fade-in-up">
+            <h1><i class="fas fa-user-shield"></i> Admin Login</h1>
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="username"><i class="fas fa-user"></i> Username</label>
+                    <input type="text" id="username" name="username" required placeholder="Enter your username">
+                </div>
+                <div class="input-group">
+                    <label for="password"><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="password" name="password" required placeholder="Enter your password">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </form>
+            <div class="login-footer" style="margin-top: var(--padding-md); padding-top: var(--padding-md); border-top: 1px solid var(--border);">
+                <p style="color: var(--text-light); font-size: 0.875rem;">
+                    <i class="fas fa-info-circle"></i> Use admin credentials to access control panel
+                </p>
             </div>
-            <div class="input-group">
-                <label for="password"><i class="fas fa-lock"></i> Password</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit" class="btn btn-primary btn-block">
-                <i class="fas fa-sign-in-alt"></i> Login
-            </button>
-        </form>
+        </div>
     </div>
 
     <script src="script.js"></script>
