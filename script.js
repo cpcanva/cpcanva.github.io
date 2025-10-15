@@ -1,8 +1,26 @@
-// script.js - Fungsi-fungsi utama untuk autentikasi dan logika aplikasi
+// script.js - Fungsi-fungsi utama untuk interaktivitas dan logika aplikasi
+
+// Fungsi untuk menampilkan loader di tombol
+function showLoader(buttonElement, text) {
+    buttonElement.innerHTML = `<i class="loader"></i> ${text}`;
+    buttonElement.disabled = true;
+}
+
+// Fungsi untuk menampilkan notifikasi toast
+function showToast(message, type) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.className = `toast ${type}`;
+    toast.classList.add('show');
+
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3000);
+}
 
 // Fungsi untuk login admin
 async function adminLogin(username, password) {
-    // Contoh struktur untuk permintaan ke backend
+    // Simulasi login ke backend
     // const response = await fetch('/api/login.php', {
     //     method: 'POST',
     //     headers: { 'Content-Type': 'application/json' },
@@ -31,7 +49,7 @@ function adminLogout() {
 
 // Fungsi untuk memeriksa password user
 async function checkUserPassword(password) {
-    // Contoh struktur untuk permintaan ke backend
+    // Simulasi validasi password ke backend
     // const response = await fetch('/api/check_password.php', {
     //     method: 'POST',
     //     headers: { 'Content-Type': 'application/json' },
@@ -53,14 +71,6 @@ async function checkUserPassword(password) {
 
 // Fungsi untuk mengambil daftar password dari backend
 async function getPasswords() {
-    // Contoh struktur untuk permintaan ke backend
-    // const response = await fetch('/api/manage_passwords.php', {
-    //     method: 'GET',
-    //     headers: { 'Authorization': `Bearer ${localStorage.getItem('adminToken')}` }
-    // });
-    // const data = await response.json();
-    // return data.passwords;
-
     // Simulasi data
     return [
         { id: 1, start_time: '00:00', end_time: '11:59', value: 'morning123' },
@@ -70,14 +80,6 @@ async function getPasswords() {
 
 // Fungsi untuk menambah atau memperbarui password
 async function updatePassword(startTime, endTime, passwordValue) {
-    // Contoh struktur untuk permintaan ke backend
-    // const response = await fetch('/api/manage_passwords.php', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('adminToken')}` },
-    //     body: JSON.stringify({ start_time: startTime, end_time: endTime, password: passwordValue })
-    // });
-    // return response.ok;
-
     // Simulasi
     console.log(`Update password: ${startTime} - ${endTime} = ${passwordValue}`);
     return true;
@@ -85,14 +87,6 @@ async function updatePassword(startTime, endTime, passwordValue) {
 
 // Fungsi untuk menghapus password
 async function deletePassword(id) {
-    // Contoh struktur untuk permintaan ke backend
-    // const response = await fetch('/api/manage_passwords.php', {
-    //     method: 'DELETE',
-    //     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('adminToken')}` },
-    //     body: JSON.stringify({ id })
-    // });
-    // return response.ok;
-
     // Simulasi
     console.log(`Delete password ID: ${id}`);
     return true;
