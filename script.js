@@ -1,4 +1,4 @@
-// script.js - Fungsi-fungsi interaktif
+// script.js - Fungsi-fungsi interaktif dan logika navigasi
 
 // Fungsi untuk menampilkan notifikasi toast
 function showToast(message, type = 'info') {
@@ -67,7 +67,14 @@ function applyTheme() {
 // Fungsi untuk memeriksa status login admin
 function requireAdminAuth() {
     if (!localStorage.getItem('adminToken')) {
-        window.location.href = 'cpcanva.github.io';
+        window.location.href = 'index.html';
+    }
+}
+
+// Fungsi untuk memeriksa status logout (jika di halaman login saat sudah login)
+function requireNoAuth() {
+    if (localStorage.getItem('adminToken')) {
+        window.location.href = 'controlpanel.html';
     }
 }
 
@@ -93,7 +100,7 @@ async function adminLogin(username, password) {
 // Fungsi logout admin
 function adminLogout() {
     localStorage.removeItem('adminToken');
-    window.location.href = 'cpcanva.github.io';
+    window.location.href = 'index.html';
 }
 
 // Fungsi untuk memeriksa password user (simulasi)
@@ -125,7 +132,20 @@ async function checkUserPassword(password) {
     return false;
 }
 
-// Inisialisasi tema saat DOM siap
+// Fungsi untuk menyorot navigasi aktif
+function setActiveNav() {
+    const currentPage = window.location.pathname.split('/').pop();
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === currentPage || (currentPage === '' && link.getAttribute('href') === 'index.html')) {
+            link.classList.add('active');
+        }
+    });
+}
+
+// Inisialisasi tema dan navigasi aktif saat DOM siap
 document.addEventListener('DOMContentLoaded', function() {
     applyTheme();
+    setActiveNav();
 });
